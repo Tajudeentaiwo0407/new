@@ -13,13 +13,11 @@ jobs:
       - name: Install zip tool
         uses: montudor/action-zip@v1
       - name: Create Zip file for lambda Function
-        run: zip -r code.zip .
+        run:  zip -r code.zip .
       - name: AWS CLI v2
         uses: imehedi/actions-awscli-v2@latest
         with:
-          args: "lambda update-function-code 
-            -- function-name arn:aws:newname
-            -- zip-file fileb://code.zip"
+          args: "sts get-caller-identity"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_ACCESS_KEY_KEY: ${{ secrets.AWS_ACCESS_KEY }} 
