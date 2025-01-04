@@ -1,4 +1,4 @@
-# This is the new terraform 
+# This is the new terraform that i just created 
 terraform {
   required_providers {
     aws = {
