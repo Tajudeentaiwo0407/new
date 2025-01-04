@@ -1,4 +1,4 @@
-#
+# The name of the repository that i intend using
 terraform {
   required_providers {
     aws = {
