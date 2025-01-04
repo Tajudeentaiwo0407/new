@@ -40,7 +40,7 @@ jobs:
 
         - name: release to dev
           uses: softprops/action-gh-release@v0.1.15
-            with:
+          with:
             tag_name: v${{ vars.DEV_VERSION }}
             token: ${{ secrets.DEV_TOKEN }}
             prerelease: true
