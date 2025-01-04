@@ -21,6 +21,32 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_ACCESS_KEY_KEY: ${{ secrets.AWS_ACCESS_KEY }} 
-          AWS_DEFAULT_REGION: "us-east-1"         
+          AWS_DEFAULT_REGION: "us-east-1"    
+
+  deploy-dev:
+      needs: [deploy-preliminary]
+      if: github.ref == 'refs/heads/dev'
+      
+      runs-on: ubuntu-latest
+      environment:
+        name: development
+        url: https://github.com/${{ github.repository }}/releases/tag/$v${{ vars.DEV_VERSION }}
+
+      steps:
+        - name: Download candidate artifacts
+          uses: actions/download-artifact@v3
+          with:
+              name: archive.zip
+
+        - name: release to dev
+          uses: softprops/action-gh-release@v0.1.15
+            with:
+            tag_name: v${{ vars.DEV_VERSION }}
+            token: ${{ secrets.DEV_TOKEN }}
+            prerelease: true
+            draft: true
+            name: dev
+            files: greetings-deploy.jar
+
 
 
