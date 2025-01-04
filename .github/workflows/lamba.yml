@@ -34,21 +34,21 @@ jobs:
         name: development
         url: https://github.com/${{ github.repository }}/releases/tag/$v${{ vars.DEV_VERSION }}
 
-        steps:
-          - name: Download candidate artifacts
-            uses: actions/download-artifact@v3
-            with:
-              name: archive.zip
+      steps:
+        - name: Download candidate artifacts
+          uses: actions/download-artifact@v3
+          with:
+            name: archive.zip
 
-          - name: release to dev
-            uses: softprops/action-gh-release@v0.1.15
-            with:
-              tag_name: v${{ vars.DEV_VERSION }}
-              token: ${{ secrets.DEV_TOKEN }}
-              prerelease: true
-              draft: true
-              name: dev
-              files: greetings-deploy.jar
+       - name: release to dev
+          uses: softprops/action-gh-release@v0.1.15
+          with:
+            tag_name: v${{ vars.DEV_VERSION }}
+            token: ${{ secrets.DEV_TOKEN }}
+            prerelease: true
+            draft: true
+            name: dev
+            files: greetings-deploy.jar
 
   deploy-prod:
       needs: [deploy-preliminary]
@@ -58,13 +58,13 @@ jobs:
       environment: 
         name: production
         url: https://github.com/${{ github.repository }}/releases/tag/$v${{ vars.PROD_VERSION }}
-        steps: 
-          - name: Download candidate artifacts
-            uses: actions/download-artifact@v3
+      steps: 
+        - name: Download candidate artifacts
+          uses: actions/download-artifact@v3
             with: 
               name: archive.zip
-          - name: GH Release
-            uses: softprops/action-gh-release@v0.1.15
+        - name: GH Release
+          uses: softprops/action-gh-release@v0.1.15
             with:
               tag_name: v${{ PROD_VERSION }}
               token: ${{ secrets.PROD_TOKEN }}
