@@ -1,6 +1,7 @@
 name: Deploy Lambda Function
 
 on:
+  workflow_dispatch:
   push:
     branches: [ "main", "dev" ]
 
@@ -11,11 +12,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install zip tool
-        uses: montudor/action-zip@v1
+        run: |
+          - sudo apt-get install zip && sudo apt-get install unzip
       - name: Create Zip file for lambda Function
         run:  zip -r terraform-script .
       - name: AWS CLI v2
-        uses: imehedi/actions-awscli-v2@latest
+        run: |
+          - curl -L -o install-aws.sh https://raw.githubusercontent.com/unfor19/install-aws-cli-action/master/entrypoint.sh && \
+          - chmod +x install-aws.sh \
+          - ./install-aws.sh "v2" "amd64" \
+          - rm install-aws.sh
+            
         with:
           args: "--version"
         env:
