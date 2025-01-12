@@ -11,11 +11,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Install zip tool
+      
+      - name: Install zip tool and pylint 
         run: |
-          sudo apt-get install zip && sudo apt-get install unzip
+          sudo apt-get install zip && \
+          sudo apt-get install unzip && \
+          sudo apt-get install pylint
       - name: Create Zip file for lambda Function
         run:  zip -r terraform-script .
+      
       - name: AWS CLI v2
         run: |
           sudo apt-get install python3-pip && \
@@ -24,7 +28,10 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_ACCESS_KEY_KEY: ${{ secrets.AWS_ACCESS_KEY }} 
-          AWS_DEFAULT_REGION: "us-east-1"    
+          AWS_DEFAULT_REGION: "us-east-1" 
+        
+      - name: Testing Pylinting is installed
+        run: pylint --version 
 
   deploy-dev:
       needs: [deploy-preliminary]
@@ -37,7 +44,7 @@ jobs:
 
       steps:
         - name: Download candidate artifacts
-          uses: actions/download-artifact@v3
+          uses: actions/upload-artifact@v4
           with:
               name: Dockerfile
 
