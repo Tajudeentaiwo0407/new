@@ -12,11 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Install zip tool and pylint 
+      - name: Install zip tool, pylint and other dependencies
         run: |
           sudo apt-get install zip && \
           sudo apt-get install unzip && \
-          sudo apt-get install pylint
+          sudo apt-get install pylint && \
+          sudo apt-get install jq
+          
       - name: Create Zip file for lambda Function
         run:  zip -r terraform-script .
       
@@ -49,15 +51,6 @@ jobs:
               name: Dockerfile
               path: ${{ github.repository }}/.vscode/terraform-script
 
-        - name: release to dev
-          uses: softprops/action-gh-release@v0.1.15
-          with:
-            tag_name: v${{ vars.DEV_VERSION }}
-            token: ${{ secrets.DEV_TOKEN }}
-            prerelease: true
-            draft: true
-            name: dev
-            path: ${{ github.repository }}/.vscode/terraform-script
-
+        
 
 
