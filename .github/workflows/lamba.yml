@@ -18,10 +18,8 @@ jobs:
         run:  zip -r terraform-script .
       - name: AWS CLI v2
         run: |
-          curl -L -o install-aws.sh https://raw.githubusercontent.com/unfor19/install-aws-cli-action/master/entrypoint.sh && \
-          chmod +x install-aws.sh \
-          ./install-aws.sh "v2" "amd64" \
-          rm install-aws.sh
+          sudo apt-get install python3-pip && \
+          sudo pip install awscli && \
           aws --version
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
